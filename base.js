@@ -34,3 +34,6 @@ Ext.namespace("Ext.ux.MVC.controller", "Ext.ux.MVC.model", "Ext.ux.MVC.view", "E
 
 //additional helper namespaces
 Ext.namespace("Ext.ux.MVC.helper.button", "Ext.ux.MVC.helper.grid", "Ext.ux.MVC.helper.form");
+
+//set up namespaces for applications
+Ext.namespace("Ext.ux.App", "Ext.ux.App.view");

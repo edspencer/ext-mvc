@@ -20,7 +20,6 @@ Ext.ux.MVC.view.DefaultPagingGrid = function(config) {
   
   //set default actions if they are not supplied
   Ext.applyIf(config, {
-    title: config.model.human_plural_name,
     iconCls: 'grid_list',
     id: config.model.url_name + '_index',
     store: config.model.collectionStore(),
@@ -57,7 +56,7 @@ Ext.ux.MVC.view.DefaultPagingGrid = function(config) {
   config.plugins = [config.bbar, config.filters];
   config.cm = this.columnModel;
 
-  config.controller = application.getControllerByName(config.model.controller_name);
+  config.controller = null; //application.getControllerByName(config.model.controller_name);
   
   //set up key handlers
   //TODO: need a more elegant way of overriding/disabling this
