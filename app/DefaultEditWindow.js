@@ -12,7 +12,10 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
   Ext.applyIf(config, {
     id:           "edit_" + config.model.model_name + "_window",
     title:        "Edit " + config.model.human_singular_name,
-    autoLoadForm: true,
+    autoLoadForm: true,    
+    url:          config.model.singleDataUrl(config.object_id),
+    
+    formConfig: {},
     
     saveButtonHandler: function() {
       if (this.ownerCt.fireEvent('beforesave')) {
@@ -27,45 +30,39 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
           
           success: function(formElement, action) {
             Ext.ux.MVC.Flash.flash('The ' + singular + ' was updated successfully', singular + ' Updated');
-            if (this.ownerCt.fireEvent('save')) {this.ownerCt.editNextId();}
+            if (this.ownerCt.fireEvent('save')) {this.ownerCt.close();}
           }
         });
       };
     },
     
-    // Override the default behaviour for a form here.  We are passed an array of ids into config.ids,
-    // if there is more than one, open the edit screen for the next id
     cancelButtonHandler: function() {
       if (this.ownerCt.fireEvent('beforecancel')) {
-        this.ownerCt.editNextId();
+        this.ownerCt.close();
         this.ownerCt.fireEvent('cancel');
       };
     }
   });
   
-  /**
-   * Opens the next ID in config.ids into this form.  Called after save and cancel
-   * Closes the window if there are no more IDs to load
-   */
-  this.editNextId = function() {
-    if (config.ids.length > 0) {
-      config.ids.shift();
-      config.controller.callAction('edit', config.ids);
-    } else {
-      this.ownerCt.close();
-    }
+  //automatically adds a field called '_method' with value 'PUT'
+  Ext.applyIf(config.formConfig, {addPutMethodField: true});
+    
+  if (config.formConfig.addPutMethodField) {
+    var putField = { xtype: 'hidden', name: '_method', value: 'put'};
+    config.formConfig.items = [putField].concat(config.formConfig.items);
   };
   
   Ext.ux.App.view.DefaultEditWindow.superclass.constructor.call(this, config);
   
-  this.loadFormWithId = function(id) {
-    config.model.loadFormWithId(id, this.form);
+  this.loadForm = function() {
+    this.form.load({
+      url: config.model.singleDataUrl(config.object_id),
+      method: 'get'
+    });
   };
   
   //load the record into the form
-  if (config.autoLoadForm) {
-    this.loadFormWithId(config.ids[0]);
-  };
+  if (config.autoLoadForm) { this.loadForm(); }
 };
 Ext.extend(Ext.ux.App.view.DefaultEditWindow, Ext.ux.App.view.DefaultCrudFormWindow);
 Ext.reg('default_edit_window', Ext.ux.App.view.DefaultEditWindow);

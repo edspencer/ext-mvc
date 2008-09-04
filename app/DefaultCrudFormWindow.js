@@ -13,15 +13,16 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
   var singular = config.model.human_singular_name;
   
   Ext.applyIf(config, {
-    iconCls:   config.model.model_name,
-    height:    480,
-    width:     640,
-    minHeight: 240,
-    minWidth:  320,
-    layout:    'fit',
-    url:       config.model.collectionDataUrl(),
+    iconCls:     config.model.model_name,
+    height:      480,
+    width:       640,
+    minHeight:   240,
+    minWidth:    320,
+    layout:      'fit',
+    collapsible: true,
+    url:         config.model.collectionDataUrl(),
     
-    formConfig: {},
+    formConfig:  {},
     
     hasSaveButton:   true,
     hasCancelButton: true,

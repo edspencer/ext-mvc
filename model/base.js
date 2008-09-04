@@ -242,7 +242,7 @@ Ext.ux.MVC.model.Base.prototype = {
     };
     
     return store;
-  },
+  },  
   
   loadFormWithId : function(id, form, storeLoadConfig, storeConfig) {
     var store = this.singleStore({data: {id: id}}, storeConfig);

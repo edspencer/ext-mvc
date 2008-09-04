@@ -7,44 +7,45 @@ Ext.ux.MVC.DefaultGridTopToolbar = function(config) {
   var config = config || {};
   
   Ext.applyIf(config, {
+    items:       [],
     itemsBefore: [],
     itemsAfter:  [],
-    hasAddButton: true,
-    hasEditButton: true,
-    hasDeleteButton: true,
+    
+    hasSearchField:     true,
+    hasAddButton:       true,
+    hasEditButton:      true,
+    hasDeleteButton:    true,
     hasCSVExportButton: false,
     
+    searchFieldConfig:  {},
     addButtonConfig:    {},
     editButtonConfig:   {},
     deleteButtonConfig: {},
     csvButtonConfig:    {},
     
-    addButtonHandler: function() {
-      config.controller.callAction('new');
-    },
-    
-    editButtonHandler: function() {
-      var ids = this.idsFromSelectionModel(this.ownerCt.getSelectionModel());
-      config.controller.callAction('edit', ids);
-    },
-    
-    deleteButtonHandler: function() {
-      var ids = this.idsFromSelectionModel(this.ownerCt.getSelectionModel());
-      config.controller.callAction('destroy', ids);
-    },
-    
-    csvButtonHandler: function() {
-      alert("CSV");
-    }
+    addButtonHandler:    Ext.emptyFn,
+    editButtonHandler:   Ext.emptyFn,
+    deleteButtonHandler: Ext.emptyFn,
+    csvButtonHandler:    Ext.emptyFn
   });
   
   var items = config.itemsBefore;
   
+  if (config.hasSearchField) {
+    Ext.applyIf(config.searchFieldConfig, {
+      width: 200,
+      label: 'Search by Name:',
+      enableKeyEvents: true
+    });
+    
+    this.searchField = new Ext.app.SearchField(config.searchFieldConfig);
+    items = items.concat([config.searchFieldConfig.label, ' ', this.searchField]);
+  };
+  
   if (config.hasAddButton) {
     this.addButton = new Ext.ux.MVC.DefaultAddButton(Ext.apply(config.addButtonConfig, {
       model:   config.model,
-      handler: config.addButtonHandler,
-      scope:   this
+      handler: config.addButtonHandler
     }));
     
     items = items.concat(['-', this.addButton]);
@@ -53,8 +54,7 @@ Ext.ux.MVC.DefaultGridTopToolbar = function(config) {
   if (config.hasEditButton) {
     this.editButton = new Ext.ux.MVC.DefaultEditButton(Ext.apply(config.editButtonConfig, {
       model:   config.model,
-      handler: config.editButtonHandler,
-      scope:   this
+      handler: config.editButtonHandler
     }));
     
     items = items.concat(['-', this.editButton]);
@@ -63,8 +63,7 @@ Ext.ux.MVC.DefaultGridTopToolbar = function(config) {
   if (config.hasDeleteButton) {
     this.deleteButton = new Ext.ux.MVC.DefaultDeleteButton(Ext.apply(config.deleteButtonConfig, {
       model:   config.model,
-      handler: config.deleteButtonHandler,
-      scope:   this
+      handler: config.deleteButtonHandler
     }));
     
     items = items.concat(['-', this.deleteButton]);
@@ -73,8 +72,7 @@ Ext.ux.MVC.DefaultGridTopToolbar = function(config) {
   if (config.hasCsvExportButton) {
     this.csvExportButton = new Ext.ux.MVC.DefaultCSVExportButton(Ext.apply(config.csvButtonConfig, {
       model:   config.model,
-      handler: config.csvButtonHandler,
-      scope:   this
+      handler: config.csvButtonHandler
     }));
     
     items = items.concat(['-', this.csvExportButton]);
@@ -87,8 +85,6 @@ Ext.ux.MVC.DefaultGridTopToolbar = function(config) {
    * Adds handlers to grid events.  Call this after rendering the parent grid
    */
   this.setupHandlers = function() {
-    this.ownerCt.on('rowdblclick', config.editButtonHandler, this);
-    
     this.ownerCt.getSelectionModel().on('selectionchange', function(selModel){
       if (selModel.selections.length == 0) {
         this.editButton.disable();
@@ -98,21 +94,18 @@ Ext.ux.MVC.DefaultGridTopToolbar = function(config) {
         this.deleteButton.enable();
       }
     }, this);
+    
+    if (this.searchField) {
+      //we can't get hold of the grid's store when creating the search field, so must
+      //link them together now that everything has been rendered
+      this.searchField.store = this.ownerCt.store;
+      
+      //we also need to stop any key events from propagating up the chain as they may
+      //interfere with parent containers' key events
+      this.searchField.on('keydown', function(f, e) { e.stopPropagation();});
+    };
   };
   
-  /**
-   * Returns an array of currently selected record IDs from a given selection model
-   * @param {Ext.grid.AbstractSelectionModel} selModel The selection model to find currently selected record IDs from
-   & @return {Array} The array of record IDs
-   */
-  this.idsFromSelectionModel = function(selModel) {
-    var ids = [];
-    var selections = selModel.getSelections();
-    
-    Ext.each(selections, function(selection) {ids.push(selection.data.id);});
-    return ids;
-  };
-
   Ext.ux.MVC.DefaultGridTopToolbar.superclass.constructor.call(this, config);
   
 };

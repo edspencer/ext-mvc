@@ -3,64 +3,30 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   <title>JSSpec results</title>
-  <link rel="stylesheet" type="text/css" href="JSSpec.css" />
-  <script src="diff_match_patch.js" type="text/javascript"></script>
-  <script src="JSSpec.js" type="text/javascript"></script>
-  <script src="../../ext/adapter/ext/ext-base.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../../ext/ext-all.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../base.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/application.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../model/base.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../controller/base.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../controller/crud_controller.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/router.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/route.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/flash.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/string_methods.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../lib/request_exception_handler.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="/javascripts/jsspec/JSSpec.css" />
+  <script src="/javascripts/jsspec/diff_match_patch.js" type="text/javascript"></script>
+  <script src="/javascripts/jsspec/JSSpec.js" type="text/javascript"></script>
+  <script src="/javascripts/ext/adapter/ext/ext-base.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext/ext-all.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/base.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/lib/application.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/model/base.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/controller/base.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/controller/crud_controller.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/lib/router.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/lib/route.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/lib/flash.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/lib/string_methods.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/lib/request_exception_handler.js" type="text/javascript" charset="utf-8"></script>
+    
+  <script src="/javascripts/ext-mvc/specs/setup.js" type="text/javascript" charset="utf-8"></script>
   
-  <script src="base.js" type="text/javascript" charset="utf-8"></script>
-  <script src="router.js" type="text/javascript" charset="utf-8"></script>
-  <script src="route.js" type="text/javascript" charset="utf-8"></script>
-  <script type="text/javascript">// <![CDATA[
-  // Define a new model and test that the various methods work correctly
-  AgentPageTemplate = new Ext.ux.MVC.model.Base('agent_page_template', {
-    fields: [{name: 'id', type: 'int'}]
-  });
-  
-  // mock some views
-  AgentPageTemplateIndexPanel = {};
-  AgentPageTemplateEditPanel  = {};
-  AgentPageTemplateNewPanel   = {};
-  
-  // stub out a layout manager
-  Ext.ux.MVC.LayoutManager.LeftMenuLayoutManager = function() {
-    this.initialize = function() {
-      return true;
-    }
-  };
-  
-  application = new Application();
-  
-  // set up a corresponding controller for the model above
-  AgentPageTemplatesController = Ext.extend(Ext.ux.MVC.controller.CrudController, {
-    constructor: function(config) {
-      AgentPageTemplatesController.superclass.constructor.call(this, {
-        model      : AgentPageTemplate, 
-        indexPanel : AgentPageTemplateIndexPanel,
-        editPanel  : AgentPageTemplateEditPanel,
-        newPanel   : AgentPageTemplateNewPanel
-      });
-    }
-  });
-  
-  var controller = new AgentPageTemplatesController();
-
-  // ]]></script>
-  
-  <script src="model.js" type="text/javascript" charset="utf-8"></script>
-  <script src="controller.js" type="text/javascript" charset="utf-8"></script>
-  <script src="string.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/specs/base.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/specs/router.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/specs/route.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/specs/model.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/specs/controller.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/javascripts/ext-mvc/specs/string.js" type="text/javascript" charset="utf-8"></script>
   </head>
-  <body><div style="display:none;"><p>A</p><p>B</p></div></body>
+  <body></body>
 </html>
