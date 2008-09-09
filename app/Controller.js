@@ -6,9 +6,15 @@ Ext.ux.App.Controller = function(config) {
   
   //sets up a namespace which will be prepended to the ID of every window created
   //from the views in this Application
-  if (!this.viewWindowNamespace) {
+  if (!config.viewWindowNamespace) {
     throw new Error("You must provide a viewWindowNamespace to your Controller.  This is used to prepend the ID of every window in this application to enable them to be easily referenced and to not collide with any other applications");
   };
+  
+  //TODO: we can do better than this... keep this. references to important elements
+  this.viewWindowNamespace = config.viewWindowNamespace;
+  this.viewsPackage        = config.viewsPackage;
+  this.app                 = config.app;
+  this.model               = config.model;
   
   this.installViews();
   this.actions = this.actions || {};

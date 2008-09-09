@@ -42,7 +42,8 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
     defaults: {
       anchor: "-15",
       xtype:  'textfield'
-    }
+    },
+    cls: 'x-panel-mc' //without this some weird borders appear in column layouts :(
   });
   
   this.form = new Ext.form.FormPanel(config.formConfig);
@@ -75,7 +76,7 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
     this.form.addButton(this.cancelButton);
   };
   
-  config.items = this.form;
+  config.items = [this.form];
   
   Ext.ux.App.view.DefaultCrudFormWindow.superclass.constructor.call(this, config);
   

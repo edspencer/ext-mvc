@@ -14,12 +14,6 @@ Ext.ux.App.CrudController = function(config) {
     hasShowAction:    true
   });
   
-  //sets up a namespace which will be prepended to the ID of every window created
-  //from the views in this Application
-  if (!this.viewWindowNamespace) {
-    throw new Error("You must provide a viewWindowNamespace to your Crud Controller.  This is used to prepend the ID of every window in this application to enable them to be easily referenced and to not collide with any other applications");
-  };
-  
   this.installViews();
   this.actions = this.actions || {};
   
@@ -114,6 +108,8 @@ Ext.ux.App.CrudController = function(config) {
   
   //Add events for actions defined in subclass
   this.addFilterListeners();
+  
+  Ext.ux.App.CrudController.superclass.constructor.call(this, config);
 };
 
 Ext.extend(Ext.ux.App.CrudController, Ext.ux.App.Controller);

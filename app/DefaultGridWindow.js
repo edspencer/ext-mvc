@@ -35,6 +35,10 @@ Ext.ux.App.view.DefaultGridWindow = function(config) {
     topToolbarConfig: {}
   });
   
+  Ext.applyIf(config, {
+    id: "index_" + config.gridConfig.model.model_name + "_window"
+  });
+  
   //Convenient way of adding a help tool to the top right of the window
   if (config.hasHelpTool) {
     config.tools.push({
