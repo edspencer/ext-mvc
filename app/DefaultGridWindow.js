@@ -60,15 +60,15 @@ Ext.ux.App.view.DefaultGridWindow = function(config) {
   this.columnModel.defaultWidth = 160;
   
   Ext.applyIf(config.gridConfig, {
-    clicksToEdit: 1,
-    loadMask: true,
-    viewConfig: {forceFit: true},
-    tbar: null,
+    clicksToEdit:  1,
+    loadMask:      true,
+    viewConfig:    {forceFit: true},
+    tbar:          null,
     autoLoadStore: true,
-    id: this.model.url_name + '_grid',
-    store: this.model.collectionStore(),
-    sm: this.selectionModel,
-    cm: this.columnModel
+    id:            this.model.url_name + '_grid',
+    store:         this.model.collectionStore(),
+    sm:            this.selectionModel,
+    cm:            this.columnModel
   });
   
   //Tell the top toolbar to use actions defined here, and to this this as scope
