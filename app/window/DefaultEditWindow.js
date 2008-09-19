@@ -46,6 +46,11 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
   
   //automatically adds a field called '_method' with value 'PUT'
   Ext.applyIf(config.formConfig, {addPutMethodField: true});
+  
+  this.addEvents({
+    'formloaded':     true,
+    'formloadfailed': true
+  });
     
   if (config.formConfig.addPutMethodField) {
     var putField = { xtype: 'hidden', name: '_method', value: 'put'};
@@ -56,8 +61,15 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
   
   this.loadForm = function() {
     this.form.load({
-      url: config.model.singleDataUrl(config.object_id),
-      method: 'get'
+      url:    config.model.singleDataUrl(config.object_id),
+      method: 'get',
+      scope:  this,
+      success: function() {
+        this.fireEvent('formloaded');
+      },
+      failure: function() {
+        this.fireEvent('formloadfailed');
+      }
     });
   };
   
