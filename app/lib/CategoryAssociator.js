@@ -48,7 +48,7 @@ Ext.ux.App.view.CategoryAssociator = function(config) {
     height:    315,
     layout:    'form',
     items:     [this.tree, this.hiddenField],
-    bodyStyle: 'background-color: #fff; border: 1px solid #99BBE8;'
+    bodyStyle: 'background-color: #fff; border: 1px solid #99BBE8; padding: 5px;'
   });
   
   Ext.ux.App.view.CategoryAssociator.superclass.constructor.call(this, config);

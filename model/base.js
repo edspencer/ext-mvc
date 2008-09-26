@@ -177,7 +177,7 @@ Ext.ux.MVC.model.Base.prototype = {
       remoteSort: true
     });
     
-    store = new Ext.data.Store(options);
+    var store = new Ext.data.Store(options);
     
     // override the default store.load function to load data through GET rather than POST
     store.load = function(options){
