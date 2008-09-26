@@ -40,10 +40,11 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
   
   Ext.applyIf(config.formConfig, {
     defaults: {
-      anchor: "-15",
+      anchor: "-20",
       xtype:  'textfield'
     },
-    cls: 'x-panel-mc' //without this some weird borders appear in column layouts :(
+    autoScroll:  true,
+    cls:         'x-panel-mc' //without this some weird borders appear in column layouts :(
   });
   
   this.form = new Ext.form.FormPanel(config.formConfig);

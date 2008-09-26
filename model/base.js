@@ -282,6 +282,25 @@ Ext.ux.MVC.model.Base.prototype = {
     return store;
   },
   
+  /**
+   * Destroys all passed ids by submitting to the batch destroy url
+   */
+  destroy: function(ids, config) {
+    //normalize into an array of integers
+    if (typeof(ids) == 'number') { ids = [ids];}
+    
+    var url = this.singleDataUrl({data: {id: ids}});
+    
+    var config = config || {};
+    Ext.applyIf(config, {
+      url:    url,
+      method: 'post',
+      params: '_method=delete'
+    });
+    
+    Ext.Ajax.request(config);
+  },
+  
   //eek how horrid!
   newRecord: function() {
     return eval("new " + this.class_name + "Record");

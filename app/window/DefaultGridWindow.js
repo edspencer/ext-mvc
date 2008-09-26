@@ -185,7 +185,7 @@ Ext.extend(Ext.ux.App.view.DefaultGridWindow, Ext.Window, {
   createGridContextMenu: function() {
     this.contextMenu = new Ext.ux.MVC.view.DefaultGridContextMenu({
       model:         this.model,
-      grid:          this.grid,
+      grid:          this,
       scope:         this,
       addHandler:    this.addHandler,
       editHandler:   this.editHandler,
@@ -253,3 +253,78 @@ Ext.extend(Ext.ux.App.view.DefaultGridWindow, Ext.Window, {
 });
 
 Ext.reg('default_grid_window', Ext.ux.App.view.DefaultGridWindow);
+
+
+
+
+//broken attempt at a new version ffs :-/
+
+
+/**
+ * Ext.ux.App.view.DefaultGridWindow
+ * @extends Ext.Window
+ * Provides sensible default configuration for most paging grid windows
+ */
+// Ext.ux.App.view.DefaultGridWindow = function(config) {
+//   var config = config || {};
+//   
+//   Ext.applyIf(config, {
+//     title:      'Paging Grid',
+//     iconCls:    'grid_list',
+//     layout:     'fit',
+//     height:     480,
+//     width:      640,
+//     minHeight:  240,
+//     minWidth:   320,
+//     shim:       false,
+//     tools:      [],
+//             
+//     gridConfig: {}
+//   });
+//   
+//   Ext.applyIf(config, {
+//     id: "index_" + config.gridConfig.model.model_name + "_window"
+//   });
+//   
+//   //Convenient way of adding a help tool to the top right of the window
+//   if (config.hasHelpTool) {
+//     config.tools.push({
+//       id:   'help',
+//       scope: this,
+//       handler: function() {
+//         this.controller.callAction('help');
+//       }
+//     });
+//   };
+//   
+//   if (config.gridConfig.model == null) {
+//     throw new Error("Error - no Model supplied to DefaultGridWindow");
+//   };
+//   
+//   Ext.applyIf(config.gridConfig, {
+//     controller: this.controller
+//   });
+//   
+//   this.model = config.gridConfig.model;
+//   this.grid  = new Ext.ux.App.view.DefaultCrudGrid(config.gridConfig);
+//     
+//   Ext.apply(config, {
+//     items: this.grid,
+//     keys: [
+//       { key: 'a', scope: this.grid, handler: this.grid.addHandler },
+//       { key: 'e', scope: this.grid, handler: this.grid.editHandler },
+//       { key: 'd', scope: this.grid, handler: this.grid.deleteHandler },
+//       { key: 'f', scope: this.grid, handler: this.grid.firstPage },
+//       { key: 'p', scope: this.grid, handler: this.grid.previousPage },
+//       { key: 'n', scope: this.grid, handler: this.grid.nextPage },
+//       { key: 'l', scope: this.grid, handler: this.grid.lastPage },
+//       { key: 'r', scope: this.grid, handler: this.grid.refresh }
+//     ]
+//   });
+//   
+//   Ext.ux.App.view.DefaultGridWindow.superclass.constructor.call(this, config);
+// };
+
+// Ext.extend(Ext.ux.App.view.DefaultGridWindow, Ext.Window);
+
+// Ext.reg('default_grid_window', Ext.ux.App.view.DefaultGridWindow);

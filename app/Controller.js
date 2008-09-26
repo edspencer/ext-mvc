@@ -70,21 +70,39 @@ Ext.extend(Ext.ux.App.Controller, Ext.util.Observable, {
    * @param {Array} arguments The list of arguments to call this action with
    * @return {Boolean} The result of any after action events (defaults to true)
    */
-  callAction : function(name, arguments) {
+  callAction : function(name) {
+    //strip first argument
+    var arguments = this.stripArguments(arguments);
+    
     //if this action does not exist, try creating it now.  If that doesn't work, throw an error
     if (!this.actions[name]) {
-      var action = this.createDefaultAction(name);
+      var action = this.createDefaultAction(name, arguments);
       if (!action) { throw new Error("Undefined method " + name); }
     };
     
     //call before filters
     if (this.fireEvent(this.actionEventName(name, 'before'))) {
       //need to create a delegate here to call the action with the scope of this
-      this.actions[name].createDelegate(this, [arguments])();
+      this.actions[name].createDelegate(this, arguments)();
     }
 
     //call after filters
     this.fireEvent(this.actionEventName(name, 'after'));
+  },
+  
+  /**
+   * Private utility method - removes the first element from an arguments object
+   * @param {Arguments Object} An arguments object passed from another function
+   * @return {Array} Array of all arguments except for the first
+   */
+  stripArguments: function(args) {
+    var newArgs = [];
+    
+    for (var i=1; i < args.length; i++) {
+      newArgs.push(args[i]);
+    };
+    
+    return newArgs;
   },
   
   /**
@@ -96,10 +114,19 @@ Ext.extend(Ext.ux.App.Controller, Ext.util.Observable, {
    * callAction will use createDefaultAction to produce a simple function to show the Help window.
    * 
    * @param {String} action_name The name of the action which could not be found
+   * @param {Object} config Additional config which will be passed to the new window's constructor
    * @return {Mixed} The action function if the action was created automatically, false otherwise
    */
-  createDefaultAction: function(action_name) {
+  createDefaultAction: function(action_name, config) {
     if (!this.actions[action_name] && this.viewTemplateExists(action_name)) {
+      var config = config || {};
+      
+      //special case - if we are passed an object of length 1, which contains another object,
+      //this is almost certainly a config object, so use the first element of the object
+      if (config.length == 1 && typeof(config[0] == 'object')) {
+        config = config[0];
+      };
+
       //create the action and store it in this.actions for future reuse
       this.actions[action_name] = function() {
         var desktop  = this.app.desktop;
@@ -107,7 +134,7 @@ Ext.extend(Ext.ux.App.Controller, Ext.util.Observable, {
         
         var win = desktop.getWindow(windowId);
         if (!win) {
-          win = desktop.createWindow({controller: this, id: windowId}, this.views[action_name]);
+          win = desktop.createWindow(Ext.apply({controller: this, id: windowId}, config), this.views[action_name]);
         };
         
         win.show();

@@ -31,16 +31,22 @@ Ext.ux.App.CrudController = function(config) {
   };
   
   if (!this.actions['edit'] && config.hasEditAction) {
-    this.actions['edit'] = function(ids) {
+    this.actions['edit'] = function(ids, config) {
+      var config = config || {};
       var desktop = this.app.desktop;
       
       //load an edit window for each ID
       for (var i = ids.length - 1; i >= 0; i--){
         var windowId = this.namespacedWindowName('edit', {id: ids[i]});
         var win = desktop.getWindow(windowId);
+        Ext.applyIf(config, {
+          controller: this,
+          id:         windowId,
+          object_id:  ids[i]
+        });
 
         if (!win) {
-          win = desktop.createWindow({controller: this, id: windowId, object_id: ids[i]}, this.views['edit']);
+          win = desktop.createWindow(config, this.views['edit']);
         }
         
         win.show();
