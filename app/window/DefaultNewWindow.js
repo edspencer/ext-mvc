@@ -21,7 +21,9 @@ Ext.ux.App.view.DefaultNewWindow = function(config) {
           scope:   this,
           
           failure: function() {
-            Ext.Msg.alert('Operation Failed', 'There were errors saving this ' + singular + ', please see any fields with red icons');
+            if (!this.ownerCt.fireEvent('savefailed')) {
+              Ext.Msg.alert('Operation Failed', 'There were errors saving this ' + singular + ', please see any fields with red icons');
+            };
           },
           
           success: function(formElement, action) {

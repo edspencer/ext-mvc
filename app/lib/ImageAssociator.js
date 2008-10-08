@@ -94,6 +94,7 @@ Ext.ux.App.view.ImageAssociator = function(config) {
   
   this.view.on('selectionchange', this.updateRemoveButtonStatus, this);
 };
+
 Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
   
   imageAssociationReader: new Ext.data.JsonReader(

@@ -1,23 +1,25 @@
 /**
- * Ext.ux.App.view.CategoryAssociator
+ * Ext.ux.App.view.HABTMTree
  * @extends Ext.Panel
  * Links any model to one or more categories in a tree
  */
-Ext.ux.App.view.CategoryAssociator = function(config) {
+Ext.ux.App.view.HABTMTree = function(config) {
   var config = config || {};
   
-  if (!config.model)         { throw new Error("You must provide a model to CategoryAssociator");}
-  if (!config.categoryModel) { throw new Error("You must provide a category model to CategoryAssociator");}
+  if (!config.model)      { throw new Error("You must provide a model to HABTMTree");}
+  if (!config.habtmModel) { throw new Error("You must provide a category model to HABTMTree");}
+  
   this.model         = config.model;
-  this.categoryModel = config.categoryModel;
+  this.habtmModel    = config.habtmModel;
   this.objectId      = config.objectId;
   
   this.hiddenField = new Ext.form.Hidden({
-    name: this.model.model_name + '[category_ids]'
+    name: this.model.model_name + '[' + this.habtmModel.foreign_key_name + 's]'
   });
   
   Ext.applyIf(config, {
-    loaderUrl: this.defaultLoaderUrl()
+    loaderUrl:  this.defaultLoaderUrl(),
+    autoScroll: true
   });
   
   this.tree = new Ext.tree.TreePanel({
@@ -28,7 +30,7 @@ Ext.ux.App.view.CategoryAssociator = function(config) {
       dataUrl:   config.loaderUrl,
       listeners: {
         'load': {
-          fn:    this.populateCategoryIds,
+          fn:    this.populateIds,
           scope: this
         }
       }
@@ -51,7 +53,7 @@ Ext.ux.App.view.CategoryAssociator = function(config) {
     bodyStyle: 'background-color: #fff; border: 1px solid #99BBE8; padding: 5px;'
   });
   
-  Ext.ux.App.view.CategoryAssociator.superclass.constructor.call(this, config);
+  Ext.ux.App.view.HABTMTree.superclass.constructor.call(this, config);
   
   this.treeRoot.expand(false, false, function() {
     // this.treeRoot.firstChild.expand(false);
@@ -59,12 +61,12 @@ Ext.ux.App.view.CategoryAssociator = function(config) {
   
   this.tree.on('checkchange', this.onCheckChange, this);
 };
-Ext.extend(Ext.ux.App.view.CategoryAssociator, Ext.Panel, {
+Ext.extend(Ext.ux.App.view.HABTMTree, Ext.Panel, {
   
   /**
    * Copies all selected items from the tree into the hidden field
    */
-  populateCategoryIds: function() {
+  populateIds: function() {
     var nodes = this.tree.getChecked();
     var nodeIds = [];
     
@@ -90,16 +92,12 @@ Ext.extend(Ext.ux.App.view.CategoryAssociator, Ext.Panel, {
       }, this);
     };
     
-    this.populateCategoryIds();
+    this.populateIds();
   },
   
   defaultLoaderUrl: function() {
-    if (this.objectId) {
-      return this.categoryModel.treeUrl() + '?checked=true&associated_model=' + this.model.model_name + '&associated_id=' + this.objectId;
-    } else {
-      return this.categoryModel.treeUrl() + '?checked=true';
-    };
+    throw new Error("You must implement defaultLoaderUrl()");
   }
   
 });
-Ext.reg('category_associator', Ext.ux.App.view.CategoryAssociator);
+Ext.reg('habtm_tree', Ext.ux.App.view.HABTMTree);

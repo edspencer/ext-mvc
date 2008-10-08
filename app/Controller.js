@@ -46,14 +46,23 @@ Ext.extend(Ext.ux.App.Controller, Ext.util.Observable, {
    * Scans the specifies views package and adds each view to this.views
    * e.g. if you have defined Ext.ux.App.MyApp.view.Index and Ext.ux.App.MyApp.view.Edit,
    * this.views == {'index': Ext.ux.App.MyApp.view.Index, 'edit': Ext.ux.App.MyApp.view.Edit}
+   * @param {String} viewsPackage An optional package to install views from (Defaults to the Ext.ux.App.MyApp.view package)
+   * @param {String} viewNamespace An optional namespace to prepend to the view name (useful if you have two windows with the same name)
    */
-  installViews: function() {
+  installViews: function(viewsPackage, viewNamespace) {
+    var viewsPackage  = viewsPackage  || this.viewsPackage;
+    
     //make sure we have a views object first
     this.views = this.views || {};
     
-    if (this.viewsPackage) {
-      for (view in eval(this.viewsPackage)) {
-        this.views[view.toLowerCase()] = eval(this.viewsPackage + "." + view);
+    if (viewsPackage) {
+      for (view in eval(viewsPackage)) {
+        var viewName = view.toLowerCase();
+        if (viewNamespace) {
+          viewName = viewNamespace + "_" + viewName;
+        }
+        
+        this.views[viewName] = eval(viewsPackage + "." + view);
       }
     };
   },

@@ -19,7 +19,7 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
     minHeight:   240,
     minWidth:    320,
     layout:      'fit',
-    collapsible: true,
+    collapsible: false,
     url:         config.model.collectionDataUrl(),
     
     formConfig:  {},
@@ -84,6 +84,7 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
   this.addEvents({
     'beforesave'  : true,
     'save'        : true,
+    'savefailed'  : true,
     'beforecancel': true,
     'cancel'      : true
   });
