@@ -7,7 +7,7 @@ Ext.ux.App.Base = function(config) {
   var config = config || {};
   
   this.launch = function(launch_config) {
-    this.desktop = this.app.getDesktop();
+    this.desktop = this.app.getOS();
     this.controller.callAction('index');
   };
   

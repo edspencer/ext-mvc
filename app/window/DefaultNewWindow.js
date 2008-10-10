@@ -27,7 +27,7 @@ Ext.ux.App.view.DefaultNewWindow = function(config) {
           },
           
           success: function(formElement, action) {
-            Ext.ux.MVC.NotificationManager.inform({message: 'The ' + singular + ' was created successfully'});
+            Ext.ux.MVC.NotificationManager.inform('The ' + singular + ' was created successfully');
             if (this.ownerCt.fireEvent('save')) {this.ownerCt.close();}
           }
         });

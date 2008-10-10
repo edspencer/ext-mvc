@@ -29,7 +29,7 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
           },
           
           success: function(formElement, action) {
-            Ext.ux.MVC.NotificationManager.inform({message: 'The ' + singular + ' was updated successfully'});
+            Ext.ux.MVC.NotificationManager.inform('The ' + singular + ' was updated successfully');
             if (this.ownerCt.fireEvent('save')) {this.ownerCt.close();}
           }
         });
