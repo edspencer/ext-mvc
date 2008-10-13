@@ -1,43 +1,3 @@
-Ext.ns("Ext.ux.MVC.Spec");
-
-/**
- * Ext.ux.MVC.Spec.FakeUser
- * @extends Ext.ux.App.model
- * User model
- */
-Ext.ux.MVC.Spec.FakeUser = function(fields) {
-  
-  Ext.applyIf(this, {
-    modelName: 'user',
-    fields: [
-      {name: 'id', type: 'int'},
-      {name: 'name', type: 'string'}
-    ]
-  });
-  
- Ext.ux.MVC.Spec.FakeUser.superclass.constructor.call(this, fields);
-};
-Ext.extend(Ext.ux.MVC.Spec.FakeUser, Ext.ux.App.model);
-
-/**
- * Ext.ux.MVC.Spec.CustomisedUser
- * @extends Ext.ux.App.model
- * User model with various attributes configured diffently to default
- */
-Ext.ux.MVC.Spec.CustomisedUser = function(fields) {
-  Ext.apply(this, {
-    modelName:  'customised_user',
-    className:  'SpecialUser',
-    fields:     [
-      {name: 'id', type: 'int'}
-    ]
-  });
-  
-  Ext.ux.MVC.Spec.CustomisedUser.superclass.constructor.call(this, fields);
-};
-Ext.extend(Ext.ux.MVC.Spec.CustomisedUser, Ext.ux.App.model);
-
-
 describe('An example model', {
   before_each : function() {
     model = new Ext.ux.MVC.Spec.FakeUser({
@@ -120,20 +80,21 @@ describe('An example model using the ActiveResource data adapter', {
     value_of(customModel.collectionDataUrl()).should_be('/admin/customised_users.ext_json');
   },
   
-  'should return the correct edit url for a given record': function() {
-    value_of(AgentPageTemplate.editUrl(record)).should_be('agent_page_templates/Edit/1');
-  },
-  
-  'should return the correct show url for a given record': function() {
-    value_of(AgentPageTemplate.showUrl(record)).should_be('agent_page_templates/Edit/1');
-  },
-  
-  'should return the correct new url': function() {
-    value_of(AgentPageTemplate.newUrl()).should_be('agent_page_templates/New');
-  },
-  
   'should return the correct url for the collection': function() {
     value_of(AgentPageTemplate.collectionUrl()).should_be('agent_page_templates/Index');
+  }
+});
+
+describe('Model validations', {
+  before_each: function() {
+    //invalid model as FakeUser validates presence of id and name
+    model = new Ext.ux.MVC.Spec.FakeUser({
+      id: 1
+    });
+  },
+  
+  'should return false to isValid() for an invalid model': function() {
+    value_of(model.isValid()).should_be(false);
   }
 });
 

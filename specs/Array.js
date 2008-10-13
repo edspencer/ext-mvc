@@ -79,5 +79,12 @@ describe('Array methods', {
     var collected = numerical_array.collect(function(e) {return e + 1;});
     
     value_of(collected).should_be([2,6,7,10]);
+  },
+  
+  'should turn an array into a sentence': function() {
+    var names = ['Ed', 'Nick', 'John'];
+    value_of(names.toSentence()).should_be('Ed, Nick and John');
+    value_of(names.toSentence('or')).should_be('Ed, Nick or John');
+    value_of(names.toSentence('or', true)).should_be('Ed, Nick, or John');
   }
 });
