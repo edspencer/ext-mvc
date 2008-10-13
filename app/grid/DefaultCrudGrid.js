@@ -239,5 +239,4 @@ Ext.extend(Ext.ux.App.view.DefaultCrudGrid, Ext.grid.GridPanel, {
   
 });
 
-
 Ext.reg('default_crud_grid', Ext.ux.App.view.DefaultCrudGrid);

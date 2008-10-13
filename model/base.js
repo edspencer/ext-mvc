@@ -307,11 +307,11 @@ Ext.ux.MVC.model.Base.prototype = {
   },
     
   singularize_human_name : function(name) {
-    return String.titleize(name.replace(/_/g, " "));
+    return name.replace(/_/g, " ").titleize();
   },
   
   pluralize_human_name : function(name) {
-    return String.titleize((name + 's').replace(/_/g, " "));
+    return (name + 's').replace(/_/g, " ").titleize();
   },
   
   urlize_name : function(name) {
