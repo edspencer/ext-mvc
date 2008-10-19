@@ -10,7 +10,7 @@ Ext.ux.App.view.DefaultNewWindowWithTinyMce = function(config) {
   
   //add the tiny MCE hooks
   this.on('show',          this.initTinyMce);
-  this.on('beforesave',    tinyMCE.triggerSave);
+  this.on('beforesave',    function() { tinyMCE.triggerSave(); });
   this.on('beforedestroy', this.removeTinyMceTextAreas);
 };
 Ext.extend(Ext.ux.App.view.DefaultNewWindowWithTinyMce, Ext.ux.App.view.DefaultNewWindow, Ext.ux.App.TinyMceMethods);

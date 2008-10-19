@@ -53,7 +53,7 @@ Ext.ux.App.view.ImageAssociator = function(config) {
     itemSelector: 'div.thumb-wrap',
     style:        'overflow: auto; background-color: #fff;',
     overClass:    'x-view-over',
-    emptyText:    'No images to display',
+    emptyText:    '<p style="padding: 10px">No images to display - drag images here to attach images</p>',
     singleSelect: true,
     multiSelect:  false,
     store:        this.store,
@@ -176,7 +176,7 @@ Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
        * Updates the drag element's class when drop is allowed
        */
       notifyOver: function(ddSource, e, data) {        
-        if (data.imageData && data.imageData.id) {
+        if (this.canDropOnLocation(ddSource, e, data)) {
           return Ext.dd.DropZone.prototype.dropAllowed;
         } else {
           return Ext.dd.DropZone.prototype.dropNotAllowed;
@@ -187,9 +187,42 @@ Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
        * Tell the DataView to associate the image
        */
       notifyDrop: function(ddSource, e, data) {
-        if (data.imageData && data.imageData.id) {
+        e.stopEvent();
+        console.log("dropped");
+        if (this.canDropOnLocation(ddSource, e, data)) {
           this.dataView.associateImage(data.imageData.id);
           
+          return true;
+        } else {
+          return false;
+        };
+      },
+      
+      /**
+       * Returns true if a drop is allowed here
+       */
+      canDropOnLocation: function(ddSource, e, data) {
+        boo = e;
+        
+        if (e.getTarget('.x-desktop')) {
+          console.log("over desktop");
+          return false;
+        };
+        
+        return data.imageData && data.imageData.id;
+        
+        //check that we're not currently hovering above a window
+        if (e.getTarget('.x-window')) {
+          return false;
+        };
+        
+        //check that we're not currently hovering above another icon
+        if (e.getTarget('.x-shortcut')) {
+          return false;
+        };
+        
+        //if we're hovering over a free shortcut location, all is well
+        if (e.getTarget('td.shortcut-position') && this.hasValidShortcutConfig(data)) {
           return true;
         } else {
           return false;
@@ -202,6 +235,7 @@ Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
    * Associates the given image ID with this model and objectID
    */
   associateImage: function(id) {
+    console.log("associating");
     if (this.fireEvent('beforeassociate')) {
       
       var params =  '&image_association[image_id]=' + id;

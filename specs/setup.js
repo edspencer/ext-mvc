@@ -1,3 +1,51 @@
+Ext.ns("Ext.ux.MVC.Spec");
+
+/**
+ * Ext.ux.MVC.Spec.FakeUser
+ * @extends Ext.ux.App.model
+ * User model
+ */
+Ext.ux.MVC.Spec.FakeUser = function(fields) {
+  
+  Ext.applyIf(this, {
+    modelName: 'user',
+    fields: [
+      {name: 'id',   type: 'int'},
+      {name: 'name', type: 'string'}
+    ],
+    validatesPresenceOf: ['id', 'name'],
+    validatesLengthOf:   ['name', {min: 2, max: 10}]
+  });
+  
+ Ext.ux.MVC.Spec.FakeUser.superclass.constructor.call(this, fields);
+};
+Ext.extend(Ext.ux.MVC.Spec.FakeUser, Ext.ux.App.model);
+
+/**
+ * Ext.ux.MVC.Spec.CustomisedUser
+ * @extends Ext.ux.App.model
+ * User model with various attributes configured diffently to default
+ */
+Ext.ux.MVC.Spec.CustomisedUser = function(fields) {
+  Ext.apply(this, {
+    modelName:  'customised_user',
+    className:  'SpecialUser',
+    fields:     [
+      {name: 'id', type: 'int'}
+    ]
+  });
+  
+  Ext.ux.MVC.Spec.CustomisedUser.superclass.constructor.call(this, fields);
+};
+Ext.extend(Ext.ux.MVC.Spec.CustomisedUser, Ext.ux.App.model);
+
+
+
+/**
+ * BELOW HERE IS PROBABLY DEFUNCT
+ */
+
+
 // Define a new model and test that the various methods work correctly
 AgentPageTemplate = new Ext.ux.MVC.model.Base('agent_page_template', {
   fields: [{name: 'id', type: 'int'}]

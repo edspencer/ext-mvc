@@ -4,8 +4,10 @@
  * Base model class
  */
 Ext.ux.App.model = function(fields) {
-  if (!this.modelName) {throw new Error("You must provide an underscored model name (e.g. 'my_class')")};
-  if (!this.fields) {throw new Error("You must provide an array of field definitions.  These are passed on exactly to Ext.data.Record")};
+  if (!this.modelName) {throw new Error("You must provide an underscored model name (e.g. 'my_class')");}
+  if (!this.fields)    {throw new Error("You must provide an array of field definitions.  These are passed on exactly to Ext.data.Record");}
+  
+  var fields = fields || {};
   
   //provide some sensible model defaults
   Ext.applyIf(this, {
@@ -58,7 +60,28 @@ Ext.ux.App.model.RecordExtensions = {
       config.initActiveResource();
     };
     
+    //mix in validations package
+    Ext.apply(config, Ext.ux.App.model.ValidationExtensions);
+    config.initializeValidationExtensions();
+    
     Ext.apply(this, config);
+  }
+};
+
+/**
+ * Provides a framework for validating the contents of each field
+ */
+Ext.ux.App.model.ValidationExtensions = {
+  /**
+   * Sets up this record's validation parameters
+   */
+  initializeValidationExtensions: function() {
+    this.validations = this.validations || [];
+    this.errors = [];
+  },
+  
+  isValid: function() {
+    return false;
   }
 };
 
@@ -77,20 +100,30 @@ Ext.ux.App.model.ActiveResourceAdapter = {
     });
   },
   
-  save: function() {
+  /**
+   * Saves this record.  Performs validations first unless you pass false as the single argument
+   */
+  save: function(performValidations) {
+    var performValidations = performValidations || true;
     
+    console.log("saving model");
   },
   
-  destroy: function() {
+  destroy: function(config) {
+    var config = config || {};
     
+    console.log("destroying model");
   },
   
   /**
    * Loads this record with data from the given ID
    * @param {Number} id The unique ID of the record to load the record data with
+   * @param {Boolean} asynchronous False to load the record synchronously (defaults to true)
    */
-  load: function(id) {
+  load: function(id, asynchronous) {
+    var asynchronous = asynchronous || true;
     
+    console.log("loading model");
   },
   
   /**

@@ -9,7 +9,7 @@ Ext.ux.App.TinyMceMethods = {
    * Default config values.  Can be overridden to provide customised options:
    * in your DefaultNewWindow or DefaultEditWindow subclass, after the superclass constructor has been called,
    * override like this:
-   * Ext.apply(this.mceConfig, {
+   * Ext.apply(Ext.ux.App.TinyMceMethods.mceConfig, {
    *   height: 200,
    *   content_css: '/stylesheets/mystylesheet.css',
    *   ... etc
