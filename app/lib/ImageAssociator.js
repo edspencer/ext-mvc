@@ -188,7 +188,6 @@ Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
        */
       notifyDrop: function(ddSource, e, data) {
         e.stopEvent();
-        console.log("dropped");
         if (this.canDropOnLocation(ddSource, e, data)) {
           this.dataView.associateImage(data.imageData.id);
           
@@ -205,7 +204,7 @@ Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
         boo = e;
         
         if (e.getTarget('.x-desktop')) {
-          console.log("over desktop");
+          // console.log("over desktop");
           return false;
         };
         
@@ -235,7 +234,6 @@ Ext.extend(Ext.ux.App.view.ImageAssociator, Ext.Panel, {
    * Associates the given image ID with this model and objectID
    */
   associateImage: function(id) {
-    console.log("associating");
     if (this.fireEvent('beforeassociate')) {
       
       var params =  '&image_association[image_id]=' + id;
