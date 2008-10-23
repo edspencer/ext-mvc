@@ -19,10 +19,11 @@ Ext.ux.App.view.HABTMTree = function(config) {
   
   Ext.applyIf(config, {
     loaderUrl:  this.defaultLoaderUrl(),
-    autoScroll: true
+    autoScroll: true,
+    treeConfig: {}
   });
   
-  this.tree = new Ext.tree.TreePanel({
+  this.tree = new Ext.tree.TreePanel(Ext.applyIf(config.treeConfig, {
     rootVisible:     false,
     autoScroll:      true,
     containerScroll: true,
@@ -35,7 +36,7 @@ Ext.ux.App.view.HABTMTree = function(config) {
         }
       }
     })
-  });
+  }));
   
   this.treeRoot = new Ext.tree.AsyncTreeNode({
     text:      'root',

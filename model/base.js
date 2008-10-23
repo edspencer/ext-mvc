@@ -315,6 +315,33 @@ Ext.ux.MVC.model.Base.prototype = {
     Ext.Ajax.request(config);
   },
   
+  /**
+   * Intended to be attached to the nodemoved event of a tree
+   * Fires off an appropriate AJAX request to update the server's representation of the tree
+   * @param {Ext.tree.TreePanel} tree The Ext.tree.TreePanel which fired the event
+   * @param {Ext.tree.TreeNode} node The node which has been moved
+   * @param {Ext.tree.TreeNode} oldParent The node which used to be the parent of the moved node
+   * @param {Ext.tree.TreeNode} oldParent The node is now the parent of the moved node
+   * @param {Number} index The index position of the node, relative to its new parent
+   */
+  moveTreeNode: function(tree, node, oldParent, newParent, index) {
+    var human_name = this.human_singular_name;
+    
+    Ext.Ajax.request({
+      method:  'post',
+      url:     this.treeReorderUrl({data: {id: node.id}}),
+      params:  "parent=" + newParent.id + "&index=" + index,
+      
+      success: function() {
+        Ext.ux.MVC.NotificationManager.inform('The ' + human_name + ' was moved successfully');
+      },
+      
+      failure: function() {
+        Ext.Msg.alert('Error moving ' + human_name, 'Something went wrong while moving this ' + human_name + ', please try again');
+      }
+    });
+  },
+  
   //eek how horrid!
   newRecord: function() {
     return eval("new " + this.class_name + "Record");
