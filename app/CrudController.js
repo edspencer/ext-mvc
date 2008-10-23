@@ -90,7 +90,7 @@ Ext.ux.App.CrudController = function(config) {
   
   if (!this.actions['destroy'] && config.hasDestroyAction) {
     this.actions['destroy'] = function(one_or_more_ids, config) {
-      var config = config || {};
+      if (!config) {config = {};};
       
       //call ajax request
       Ext.each(one_or_more_ids, function(id) {

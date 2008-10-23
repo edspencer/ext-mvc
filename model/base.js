@@ -285,14 +285,16 @@ Ext.ux.MVC.model.Base.prototype = {
   /**
    * Destroys all passed ids by submitting to the batch destroy url
    */
-  destroy: function(ids, config) {
+  destroy: function(id, config) {
     var config = config || {};
+    var url = this.singleDataUrl(id);
     
-    //normalize into an array of integers
-    if (typeof(ids) == 'number') { ids = [ids];}
-    
-    var url = this.singleDataUrl({data: {id: ids}});
-    
+    /**
+     * FIXME: We shouldn't have to do this.  For some reason it seems to be keeping config.url after the first request,
+     * so when deleting a second object it fires to the first url again.  Most strange!
+     */
+    Ext.apply(config, { url: url });
+
     var deleteSuccess = "Deleted " + this.human_singular_name;
     var deleteFailure = "Could not delete the " + this.human_singular_name + ", please try again";
     

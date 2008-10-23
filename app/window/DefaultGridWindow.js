@@ -293,6 +293,7 @@ Ext.extend(Ext.ux.App.view.DefaultGridWindow, Ext.Window, {
     var selections = this.grid.getSelectionModel().getSelections();
     
     Ext.each(selections, function(selection) {ids.push(selection.data.id);});
+    
     return ids;
   }
   
