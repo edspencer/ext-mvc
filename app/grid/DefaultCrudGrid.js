@@ -59,8 +59,6 @@ Ext.ux.App.view.DefaultCrudGrid = function(config) {
   
   if (config.hasTopToolbar) {
     this.tbar = new Ext.ux.MVC.DefaultGridTopToolbar(config.topToolbarConfig);
-    console.log('fucker');
-    console.log(this.tbar);
     config.tbar = this.tbar;
     
     this.tbar.on('render', this.tbar.setupHandlers, this);
