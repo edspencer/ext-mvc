@@ -216,7 +216,19 @@ Ext.extend(Ext.ux.App.view.DefaultGridWindow, Ext.Window, {
    * Calls the 'new' action on this Window's controller
    */
   addHandler: function() {
-    this.controller.callAction('new');
+    //Set up a listener to reload the store when the new window is closed
+    var config = {      
+      listeners: {
+        'close': {
+          fn: function() {
+            this.grid.store.reload();
+          },
+          scope: this
+        }
+      }
+    };
+    
+    this.controller.callAction('new', config);
   },
   
   /**
@@ -225,16 +237,50 @@ Ext.extend(Ext.ux.App.view.DefaultGridWindow, Ext.Window, {
    */
   editHandler: function() {
     var ids = this.getSelectedRecordIds();
-    this.controller.callAction('edit', ids);
+    
+    //Set up a listener to reload the store when the edit window is closed
+    var config = {      
+      listeners: {
+        'close': {
+          fn: function() {
+            this.grid.store.reload();
+          },
+          scope: this
+        }
+      }
+    };
+    
+    this.controller.callAction('edit', ids, config);
   },
   
   /**
    * Calls the 'delete' action on this Window's controller, passing it an array of 
    * record ids as an argument
    */
-  deleteHandler: function() {
-    var ids = this.getSelectedRecordIds();
-    this.controller.callAction('destroy', ids);
+  deleteHandler: function(config) {
+    var ids    = this.getSelectedRecordIds();
+    var config = config || {};
+    
+    var deleteSuccess = this.model.human_singular_name + " successfully deleted";
+    
+    Ext.applyIf(config, {
+      success: function() {
+        Ext.ux.MVC.NotificationManager.inform(deleteSuccess);
+        this.grid.store.reload();
+      },
+      scope: this
+    });
+    
+    Ext.Msg.confirm(
+      'Delete ' + this.model.human_singular_name,
+      'Really delete this ' + this.model.human_singular_name + '? This cannot be undone.',
+      function(btn) {
+        if (btn == 'yes') {
+          this.controller.callAction('destroy', ids, config);
+        };
+      },
+      this
+    );
   },
   
   /**

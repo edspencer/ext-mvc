@@ -89,26 +89,13 @@ Ext.ux.App.CrudController = function(config) {
   };
   
   if (!this.actions['destroy'] && config.hasDestroyAction) {
-    this.actions['destroy'] = function(one_or_more_ids) {
-      console.log('Called destroy with ' + one_or_more_ids.join(", "));
+    this.actions['destroy'] = function(one_or_more_ids, config) {
+      var config = config || {};
       
       //call ajax request
       Ext.each(one_or_more_ids, function(id) {
-        var img = this.model.destroy(id, {
-          success: function() {
-            Ext.ux.MVC.Flash.flash("Deleted Image " + id);
-          },
-          failure: function() {
-            Ext.ux.MVC.Flash.error("Could not delete image " + id);
-          },
-          complete: function() {
-            if (id == one_or_more_ids[one_or_more_ids.length - 1]) {
-              //reload store after final request
-              
-            };
-          }
-        });
-      });
+        this.model.destroy(id, config);
+      }, this);
     };
   };
   

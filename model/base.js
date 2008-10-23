@@ -286,16 +286,28 @@ Ext.ux.MVC.model.Base.prototype = {
    * Destroys all passed ids by submitting to the batch destroy url
    */
   destroy: function(ids, config) {
+    var config = config || {};
+    
     //normalize into an array of integers
     if (typeof(ids) == 'number') { ids = [ids];}
     
     var url = this.singleDataUrl({data: {id: ids}});
     
-    var config = config || {};
+    var deleteSuccess = "Deleted " + this.human_singular_name;
+    var deleteFailure = "Could not delete the " + this.human_singular_name + ", please try again";
+    
     Ext.applyIf(config, {
       url:    url,
       method: 'post',
-      params: '_method=delete'
+      params: '_method=delete',
+      
+      success: function() {
+        Ext.ux.MVC.NotificationManager.inform(deleteSuccess);
+      },
+      
+      failure: function() {
+        Ext.Msg.alert(deleteFailure);
+      }
     });
     
     Ext.Ajax.request(config);
