@@ -31,9 +31,9 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
     cancelButtonConfig: {},
     
     cancelButtonHandler: function() {
-      if (this.ownerCt.fireEvent('beforecancel')) {
-        this.ownerCt.close();
-        this.ownerCt.fireEvent('cancel');
+      if (this.fireEvent('beforecancel')) {
+        this.close();
+        this.fireEvent('cancel');
       };
     }
   });
@@ -54,7 +54,7 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
       Ext.applyIf(config.saveButtonConfig, {
         text:    'Save',
         iconCls: 'save',
-        scope:   this.form,
+        scope:   this,
         handler: config.saveButtonHandler,
         tooltip: 'Saves this ' + singular + ' (keyboard shortcut: CTRL + s)'
       })
@@ -68,7 +68,7 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
       Ext.applyIf(config.cancelButtonConfig, {
         text:    'Cancel',
         iconCls: 'cancel',
-        scope:   this.form,
+        scope:   this,
         handler:  config.cancelButtonHandler,
         tooltip: 'Cancel save'
       })
@@ -77,7 +77,31 @@ Ext.ux.App.view.DefaultCrudFormWindow = function(config) {
     this.form.addButton(this.cancelButton);
   };
   
-  config.items = [this.form];
+  /**
+   * Provide an optional helpConfig to config in order to display usage tips
+   */
+  if (config.helpConfig) {
+    this.helpPanel = new Ext.Panel(
+      Ext.applyIf(config.helpConfig, {
+        region: 'west',
+        split:  false,
+        width:  200,
+        cls:    'x-panel-help',
+        bodyStyle: 'padding: 10px; font-size: 12px;'
+      })
+    );
+    
+    this.form.region = 'center';
+    
+    var mainPanel = new Ext.Panel({
+      layout: 'border',
+      items:  [this.form, this.helpPanel]
+    });
+    
+    config.items = [mainPanel];
+  } else {
+    config.items = [this.form];
+  };
   
   Ext.ux.App.view.DefaultCrudFormWindow.superclass.constructor.call(this, config);
   

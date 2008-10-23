@@ -18,8 +18,8 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
     formConfig: {},
     
     saveButtonHandler: function() {
-      if (this.ownerCt.fireEvent('beforesave')) {
-        this.form.submit({
+      if (this.fireEvent('beforesave')) {
+        this.form.form.submit({
           url:     config.url, 
           waitMsg: 'Saving Data...',
           scope:   this,
@@ -30,16 +30,16 @@ Ext.ux.App.view.DefaultEditWindow = function(config) {
           
           success: function(formElement, action) {
             Ext.ux.MVC.NotificationManager.inform('The ' + singular + ' was updated successfully');
-            if (this.ownerCt.fireEvent('save')) {this.ownerCt.close();}
+            if (this.fireEvent('save')) {this.close();}
           }
         });
       };
     },
     
     cancelButtonHandler: function() {
-      if (this.ownerCt.fireEvent('beforecancel')) {
-        this.ownerCt.close();
-        this.ownerCt.fireEvent('cancel');
+      if (this.fireEvent('beforecancel')) {
+        this.close();
+        this.fireEvent('cancel');
       };
     }
   });
