@@ -27,7 +27,7 @@ Ext.ux.App.TinyMceMethods = {
     height:           400,
     
     plugins : "safari,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,pagebreak",
-    theme_advanced_buttons1: 'bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,fontselect,fontsizeselect,forecolor,styleprops',
+    theme_advanced_buttons1: 'bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,fontselect,forecolor,styleprops',
     theme_advanced_buttons2: 'cut,copy,paste,pastetext,pasteword,separator,search,replace,separator,bullist,numlist,separator,outdent,indent,separator,undo,redo,separator,anchor,link,unlink,separator,image,code,fullscreen',
     theme_advanced_buttons3:         "",
     verify_html:                     false,
@@ -39,7 +39,7 @@ Ext.ux.App.TinyMceMethods = {
     external_link_list_url:           "example_data/example_link_list.js",
     external_image_list_url:          "example_data/example_image_list.js",
     template_external_list_url:       "example_data/example_template_list.js",
-    file_browser_callback:            "GoSpin.fileBrowser",
+    file_browser_callback:            function() {alert('Not installed.  You or your application developer needs to override Ext.ux.App.TinyMceMethods');},
     theme_advanced_resize_horizontal: false,
     apply_source_formatting:          true,
     relative_urls:                    false
